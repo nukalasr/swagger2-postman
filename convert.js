@@ -164,12 +164,12 @@ var Swagger2Postman = jsface.Class({
 				"preRequestScript": "",
 				"method": "GET",
 				"data": [
-					{
-						"key": "size",
-						"value": "original",
-						"type": "text",
-						"enabled": true
-					}
+					//{
+					//	"key": "size",
+					//	"value": "original",
+					//	"type": "text",
+					//	"enabled": false
+					//}
 				],
 				"dataMode": "params",
 				"description": "",
@@ -210,9 +210,16 @@ var Swagger2Postman = jsface.Class({
 
 				else if(thisParams[param].in==="path") {
 					//meh
+					request.dataMode = "params";
+					request.data.push({
+						"key": thisParams[param].name,
+						"value": "{{" + thisParams[param].name + "}}",
+						"type": "text",
+						"enabled": true
+					});
 				}
 
-				else if(thisParams[param].in==="formData") {
+				else if((thisParams[param].in==="formData") || (thisParams[param].in==="body")) {
 					request.dataMode = "params";
 					request.data.push({
 						"key": thisParams[param].name,
